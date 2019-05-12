@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <title>Calendar Webapp</title>
+        <link rel="stylesheet" href="stylesheets/calendar.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="scripts/calendar.js"></script>
+    </head>
+    <body>
+        <div class="body-container">
+            <header>
+                <h1 id="welcome-title">Welcome!</h1>
+                <p id="intro-paragraph">This is a calendar web app</p>
+            </header>
+            <div class="calendar-container">
+                <table class="cal-heading">
+                    <colgroup>
+                        <col class="month-year">
+                        <col class="prev-container">
+                        <col class="next-container">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td id="month-year"></td>
+                            <td>
+                                <button id="previous"> < </button>
+                            </td>
+                            <td>
+                                <button id="next"> > </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="cal-content" id="calendar">
+                    <thead>
+                        <tr>
+                            <th>SUN</th>
+                            <th>MON</th>
+                            <th>TUE</th>
+                            <th>WED</th>
+                            <th>THU</th>
+                            <th>FRI</th>
+                            <th>SAT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-cells">
+                    </tbody>
+                </table>
+            </div>
+            <aside>
+                <h3> Events for this week: </h3>
+
+                <!-- TODO: move the form to the calendar; a new event will be added to the calendar when the specified date is clicked-->
+                <form id="new-event-form">
+                    <label> Event Name: <input type="text" name="event-name"> </label>
+                    <label> Event Date: <input type="date" name="event-date"> </label>
+                    <label> Start Time: <input type="time" name="event-start"> </label>
+                    <label> End Time: <input type="time" name="event-end" placeholder="Event End Time:"> </label>
+                    <label>Event Description: <textarea name="event-description"></textarea></label>
+                    <input type="submit" id="addEvent" value="Add Event">
+                </form>
+                <ul>
+                    <!-- TODO: Display a list upcoming events for the current week-->
+                </ul>
+            </aside>
+        </div>
+    </body>
+    </html>
