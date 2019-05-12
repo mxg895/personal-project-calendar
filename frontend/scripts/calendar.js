@@ -12,26 +12,58 @@
 let today = new Date();
 let currMonth = today.getMonth();
 let currYear = today.getFullYear();
-let nextMonthStart = findNextMonth();
+let currMonthDate = getCurrMonthDate();
+let nextMonthStart = getNextMonth();
 
 window.onload = function() {
     displayCalendar(currMonth, currYear);
+    $("#next").bind("click", toNextMonth);
+    $("#previous").bind("click", toPrevMonth);
 };
 
-function findNextMonth(){
+// function setPrevMonth() {
+//     return new Date(currYear, currMonth - 1);
+// }
+
+function getNextMonth(){
     return new Date(currYear, currMonth + 1);
 }
 
-function findPrevMonth() {
-    return new Date(currYear, currMonth - 1);
+function getCurrMonthDate() {
+    return new Date(currYear, currMonth);
 }
+
+let toNextMonth = function(){
+    changeCurrMonth(1);
+    currMonthDate = getCurrMonthDate();
+    nextMonthStart = getNextMonth();
+    // setPrevMonth();
+    displayCalendar(currMonth, currYear);
+};
+
+function changeCurrMonth(monthsFromCurr) {
+    currMonthDate = new Date(currYear, currMonth + monthsFromCurr);
+    currMonth = currMonthDate.getMonth();
+    currYear = currMonthDate.getFullYear();
+    console.log("new curr month: " + currMonth + " " + currYear);
+}
+
+let toPrevMonth = function(){
+    changeCurrMonth(-1);
+    currMonthDate = getCurrMonthDate();
+    nextMonthStart = getNextMonth();
+    // setPrevMonth();
+    displayCalendar(currMonth, currYear);
+};
+
 function displayCalendar(selectedMonth, selectedYear){
     let nextMonthYear = nextMonthStart.getFullYear();
     let nextMonth = nextMonthStart.getMonth();
+    console.log("next month and year display: " + currMonth + " " + currYear);
 
     let selectMonthMaxDays = new Date(nextMonthYear, nextMonth, 0).getDate();
-    let selectMonthFirstDay = new Date(selectedYear, selectedMonth).getDay();
-    console.log("max days: " + selectMonthMaxDays);
+    //console.log("max days: " + selectMonthMaxDays);
+    let selectMonthFirstDay = currMonthDate.getDay();
     let calendarTable = document.getElementById("calendar-cells");
     calendarTable.innerHTML = "";
     let numDaysCount = 1;
@@ -52,14 +84,17 @@ function displayCalendar(selectedMonth, selectedYear){
         calendarTable.appendChild(newRow);
     }
     let formattedCurrDate = formatDate();
+    //console.log("formatted: " + formattedCurrDate);
     let splitDateString = formattedCurrDate.split(" ");
+    //console.log("formatted date: " + splitDateString[0] + " " + splitDateString[1] );
     $("#month-year").text(splitDateString[0] + " " + splitDateString[1]);
 }
 
 function appendPreviousMonthDay(currRow, selectedMonth, selectedYear, currMonthFirstDay, currWeekDay) {
     let prevMonthMaxDays = new Date(selectedYear, selectedMonth, 0).getDate();
-    let numDaysFromCurrMonth = currMonthFirstDay - currWeekDay;
-    let cellDate = prevMonthMaxDays - numDaysFromCurrMonth;
+    //console.log("prev max: " + prevMonthMaxDays);
+    let numDaysFromPrevMax = currMonthFirstDay - currWeekDay - 1;
+    let cellDate = prevMonthMaxDays - numDaysFromPrevMax;
     let cellNode = document.createElement("td");
     cellNode.className = "not-this-month";
     let cellText = document.createTextNode(cellDate);
@@ -68,7 +103,6 @@ function appendPreviousMonthDay(currRow, selectedMonth, selectedYear, currMonthF
 }
 
 function appendNextMonthDay(currRow, numDaysCount, currMonthMaxDays) {
-    console.log("daysCount & maxDays: ");
     let cellDate = numDaysCount - currMonthMaxDays;
     let cellNode = document.createElement("td");
     cellNode.className = "not-this-month";
@@ -90,5 +124,6 @@ function formatDate() {
         year: "numeric",
         month: "long"
     };
-    return today.toLocaleDateString("en-US", options);
+    // console.log("formatted date: " + formattedDate)
+    return currMonthDate.toLocaleDateString("en-US", options);
 }

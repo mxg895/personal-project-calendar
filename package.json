@@ -13,7 +13,6 @@
   "author": "Michelle Gu",
   "license": "ISC",
   "dependencies": {
-    "@types/jquery": "^3.3.29",
     "express": "^4.16.4"
   }
 }
